@@ -28,7 +28,7 @@
         }
 
         textarea{
-            width: 100%;
+            width: 98%;
             height: 100%;
             background-color: aquamarine
         }
@@ -52,20 +52,24 @@
         <div class="input">
             <textarea v-model="content"></textarea>
         </div>
-        <div class="preview">
-            {{content}}
+        <div class="preview" v-html="markdownPreview">
         </div>
     </div>
 
     <script>
-
         // const html=marked('# hello')
         // console.log(html)
-
+        // const html_strong=marked('**notice**')
+        // console.log(html_strong)
         var vm=new Vue({
             el:"#notebook",
             data:{
                 content:'test'
+            },
+            computed:{
+                markdownPreview(){
+                    return marked(this.content)
+                }
             }
         })
     </script>

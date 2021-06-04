@@ -44,10 +44,19 @@
             width: 40%;
         }
 
-        button,.selected{
+        button ,.note.selected{
             background: #40b883;
-            color:white;
+            height: 30px;
         }
+
+        .note{
+            height: 30px;
+            background-color: coral;
+            border:0.5px solid white;
+            margin-top: 1px;
+            text-align: center;
+        }
+
     </style>
 </head>
 
@@ -56,9 +65,9 @@
 
         <div class="notebook">
             <button v-bind:title="notes.length" v-on:click="addNote">Add Note</button>
-            <div v-for="note in notes" 
+            <div class="note" v-for="note in notes" 
                 @click="selectNote(note)"
-                v-bind:class="{selected:note===selectedNote}">
+                :class="{selected: note===selectedNote}">
                 {{note.title}}
             </div>
         </div>

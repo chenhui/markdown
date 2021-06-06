@@ -92,9 +92,9 @@
         var vm = new Vue({
             el: "#notebook",
             data: {
-                content: '',
-                notes: [],
-                selectedId: null,
+                // content: '',
+                notes: JSON.parse(localStorage.getItem('notes')) || [],
+                selectedId: localStorage.getItem('selected-id') || null,
             },
 
             computed: {
@@ -108,7 +108,18 @@
             },
 
             created() {
-                this.content = localStorage.getItem('content') || "you can write in **markdown**"
+                // this.content = localStorage.getItem('content') || "you can write in **markdown**"
+            },
+
+            watch:{
+                notes:{
+                    handler:'saveNotes',
+                    deep:true,
+                },
+
+                selectedId(val){
+                   localStorage.setItem('selected-id',val) 
+                }
             },
 
             methods: {
@@ -128,6 +139,11 @@
                 selectNote(note) {
                     this.selectedId = note.id
                     // console.log(this.selectedId)
+                },
+
+                saveNotes(){
+                    localStorage.setItem('notes',JSON.stringify(this.notes)),
+                    console.log('Notes saved!' ,new Date())
                 }
             }
         })

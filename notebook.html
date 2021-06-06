@@ -44,19 +44,19 @@
             width: 40%;
         }
 
-        button ,.note.selected{
+        button,
+        .note.selected {
             background: #40b883;
             height: 30px;
         }
 
-        .note{
+        .note {
             height: 30px;
             background-color: coral;
-            border:0.5px solid white;
+            border: 0.5px solid white;
             margin-top: 1px;
             text-align: center;
         }
-
     </style>
 </head>
 
@@ -65,9 +65,7 @@
 
         <div class="notebook">
             <button v-bind:title="notes.length" v-on:click="addNote">Add Note</button>
-            <div class="note" v-for="note in notes" 
-                @click="selectNote(note)"
-                :class="{selected: note===selectedNote}">
+            <div class="note" v-for="note in notes" @click="selectNote(note)" :class="{selected: note===selectedNote}">
                 {{note.title}}
             </div>
         </div>
@@ -75,6 +73,11 @@
         <template v-if="selectedNote">
 
             <div class="input">
+                <div class="toolbar">
+                    <!-- our toolbar is here -->
+                    <input v-model="selectedNote.title" placeholder="Note title">
+                    <button @click="removeNote">delete</button>
+                </div>
                 <textarea v-model="selectedNote.content"></textarea>
             </div>
 
@@ -111,14 +114,14 @@
                 // this.content = localStorage.getItem('content') || "you can write in **markdown**"
             },
 
-            watch:{
-                notes:{
-                    handler:'saveNotes',
-                    deep:true,
+            watch: {
+                notes: {
+                    handler: 'saveNotes',
+                    deep: true,
                 },
 
-                selectedId(val){
-                   localStorage.setItem('selected-id',val) 
+                selectedId(val) {
+                    localStorage.setItem('selected-id', val)
                 }
             },
 
@@ -136,14 +139,24 @@
                     this.notes.push(note)
                 },
 
+                removeNote() {
+                    console.log("remove note!")
+                    if (this.selectedNote && confirm('Delete the note?')) {
+                        const index = this.notes.indexOf(this.selectedNote)
+                        if (index !== -1) {
+                            this.notes.splice(index, 1)
+                        }
+                    }
+                },
+
                 selectNote(note) {
                     this.selectedId = note.id
                     // console.log(this.selectedId)
                 },
 
-                saveNotes(){
-                    localStorage.setItem('notes',JSON.stringify(this.notes)),
-                    console.log('Notes saved!' ,new Date())
+                saveNotes() {
+                    localStorage.setItem('notes', JSON.stringify(this.notes)),
+                        console.log('Notes saved!', new Date())
                 }
             }
         })

@@ -16,9 +16,7 @@
 
         <div class="notebook">
             <button v-bind:title="notes.length" v-on:click="addNote">Add Note</button>
-            <div class="note" v-for="note in notes" 
-                @click="selectNote(note)"
-                :class="{selected: note===selectedNote}">
+            <div class="note" v-for="note in notes" @click="selectNote(note)" :class="{selected: note===selectedNote}">
                 {{note.title}}
             </div>
         </div>
